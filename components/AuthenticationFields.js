@@ -1,6 +1,5 @@
 import {
   StyleSheet,
-  Text,
   TextInput,
   TouchableWithoutFeedback,
   View,
@@ -35,7 +34,7 @@ const AuthenticationFields = () => {
       {/* password  */}
       <View style={styles.passwordInput}>
         <TextInput
-          secureTextEntry={showPassword ? true : false}
+          secureTextEntry={showPassword}
           placeholder="password"
           style={styles.input}
           value={password}
