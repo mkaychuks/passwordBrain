@@ -3,10 +3,14 @@ import {
   TextInput,
   TouchableWithoutFeedback,
   View,
+  Text,
 } from "react-native";
 import React, { useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
+
+// Local imports
+import Button from "../components/Button";
 
 const AuthenticationFields = () => {
   const [showPassword, setShowPassword] = useState(true);
@@ -18,37 +22,45 @@ const AuthenticationFields = () => {
     setShowPassword(!showPassword);
   };
 
+  // handle user log in
+  const loginUser = () => {
+    console.warn("User has been logged in");
+    //  < -------- setup navigation and firebase here ------>
+  };
+
   return (
     <View>
       {/* email  */}
       <View style={styles.emailInput}>
+        <MaterialIcons name="email" size={24} color="black" />
         <TextInput
-          placeholder="email"
+          placeholder="Email"
           style={styles.input}
           value={email}
           onChangeText={(text) => setEmail(text)}
         />
-        <MaterialIcons name="email" size={24} color="black" />
       </View>
 
       {/* password  */}
       <View style={styles.passwordInput}>
-        <TextInput
-          secureTextEntry={showPassword}
-          placeholder="password"
-          style={styles.input}
-          value={password}
-          onChangeText={(text) => setPassword(text)}
-        />
-        {/* Icon */}
         <TouchableWithoutFeedback onPress={iconChange}>
           <FontAwesome
-            name={showPassword ? "lock" : "unlock"}
+            name={showPassword ?  'lock' : 'unlock'}
             size={24}
             color="black"
           />
         </TouchableWithoutFeedback>
+        <TextInput
+          secureTextEntry={showPassword}
+          placeholder="Password"
+          style={styles.input}
+          value={password}
+          onChangeText={(text) => setPassword(text)}
+        />
       </View>
+
+      {/* Custom Button and text */}
+      <Button color={"#2450a8"} title={"Login"} textColor={"#fff"} onPressHandler={loginUser} />
     </View>
   );
 };
@@ -58,14 +70,28 @@ export default AuthenticationFields;
 const styles = StyleSheet.create({
   emailInput: {
     flexDirection: "row",
-    backgroundColor: "green",
+    alignItems: "center",
+    borderTopColor: "white",
+    borderBottomColor: "black",
+    borderBottomWidth: 1,
+    borderRightColor: "white",
+    borderLeftColor: "white",
+    padding: 8,
+    marginVertical: 5
+  },
+  input: {
+    paddingHorizontal: 8,
+    width: "100%",
   },
   passwordInput: {
     flexDirection: "row",
-    backgroundColor: "red",
-  },
-  input: {
+    alignItems: "center",
+    borderTopColor: "white",
+    borderBottomColor: "black",
+    borderBottomWidth: 1,
+    borderRightColor: "white",
+    borderLeftColor: "white",
     padding: 8,
-    fontSize: 13.5,
-  },
+    
+  }
 });

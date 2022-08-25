@@ -16,14 +16,16 @@ export default Button;
 
 const styles = StyleSheet.create({
   button: {
-    width: 114,
-    height: 60,
-    textAlign: "center",
+    width: '100%',
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
     borderRadius: 5,
+    marginTop: 16
   },
   title: {
     fontSize: 15.5,
     fontWeight: "600",
-    textTransform: "capitalize",
+    textTransform: "uppercase",
   },
 });
