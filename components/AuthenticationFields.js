@@ -8,59 +8,121 @@ import {
 import React, { useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
+import { useForm, Controller } from "react-hook-form";
 
 // Local imports
 import Button from "../components/Button";
 
 const AuthenticationFields = () => {
   const [showPassword, setShowPassword] = useState(true);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
-  // change the icon when this happens
-  const iconChange = () => {
-    setShowPassword(!showPassword);
-  };
+  //  react-hook-form init
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  // REGULAR EXPRESSION FOR THE EMAIL VALIDATION
+  const EMAIL_REGEX =
+    /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
   // handle user log in
-  const loginUser = () => {
-    console.warn("User has been logged in");
+  const loginUser = (data) => {
+    const { email, password } = data;
+    console.log(email, password);
+    // console.warn("User has been logged in");
     //  < -------- setup navigation and firebase here ------>
   };
 
   return (
     <View>
       {/* email  */}
-      <View style={styles.emailInput}>
-        <MaterialIcons name="email" size={24} color="black" />
-        <TextInput
-          placeholder="Email"
-          style={styles.input}
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-        />
-      </View>
+
+      <Controller
+        control={control}
+        name="email"
+        rules={{
+          required: "Email is required",
+          pattern: { value: EMAIL_REGEX, message: "Email is invalid" },
+        }}
+        render={({
+          field: { value, onChange, onBlur },
+          fieldState: { error },
+        }) => (
+          <>
+            <View style={styles.emailInput}>
+              <MaterialIcons name="email" size={24} color="black" />
+              <TextInput
+                placeholder="Email"
+                style={styles.input}
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                keyboardType={"email-address"}
+              />
+            </View>
+            {error && (
+              <Text style={{ color: "red", alignSelf: "stretch", fontSize: 8 }}>
+                {error.message || "error"}
+              </Text>
+            )}
+          </>
+        )}
+      />
 
       {/* password  */}
-      <View style={styles.passwordInput}>
-        <TouchableWithoutFeedback onPress={iconChange}>
-          <FontAwesome
-            name={showPassword ?  'lock' : 'unlock'}
-            size={24}
-            color="black"
-          />
-        </TouchableWithoutFeedback>
-        <TextInput
-          secureTextEntry={showPassword}
-          placeholder="Password"
-          style={styles.input}
-          value={password}
-          onChangeText={(text) => setPassword(text)}
-        />
-      </View>
+      <Controller
+        name="password"
+        rules={{
+          required: "Password is required",
+          minLength: {
+            value: 8,
+            message: "Password should be at least 8 characters long",
+          },
+        }}
+        control={control}
+        render={({
+          field: { value, onChange, onBlur },
+          fieldState: { error },
+        }) => (
+          <>
+            <View style={styles.passwordInput}>
+              <TouchableWithoutFeedback
+                onPress={() => setShowPassword(!showPassword)}
+              >
+                <FontAwesome
+                  name={showPassword ? "lock" : "unlock"}
+                  size={24}
+                  color="black"
+                />
+              </TouchableWithoutFeedback>
+              <TextInput
+                secureTextEntry={showPassword}
+                placeholder="Password"
+                style={styles.input}
+                value={value}
+                onChangeText={onChange}
+                keyboardType="default"
+                onBlur={onBlur}
+              />
+            </View>
+            {error && (
+              <Text style={{ color: "red", alignSelf: "stretch", fontSize: 8 }}>
+                {error.message || "error"}
+              </Text>
+            )}
+          </>
+        )}
+      />
 
       {/* Custom Button and text */}
-      <Button color={"#2450a8"} title={"Login"} textColor={"#fff"} onPressHandler={loginUser} />
+      <Button
+        color={"#2450a8"}
+        title={"Login"}
+        textColor={"#fff"}
+        onPressHandler={handleSubmit(loginUser)}
+      />
     </View>
   );
 };
@@ -77,7 +139,7 @@ const styles = StyleSheet.create({
     borderRightColor: "white",
     borderLeftColor: "white",
     padding: 8,
-    marginVertical: 5
+    marginVertical: 5,
   },
   input: {
     paddingHorizontal: 8,
@@ -92,6 +154,5 @@ const styles = StyleSheet.create({
     borderRightColor: "white",
     borderLeftColor: "white",
     padding: 8,
-    
-  }
+  },
 });

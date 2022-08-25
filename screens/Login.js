@@ -45,7 +45,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     paddingHorizontal: 20,
-    // backgroundColor: 'red'
   },
   image: {
     width: 60,
@@ -58,15 +57,16 @@ const styles = StyleSheet.create({
   titleWrapper: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center"
+    alignItems: "center",
   },
   hairline: {
     height: StyleSheet.hairlineWidth,
-    backgroundColor: '',
+    backgroundColor: '#cccc',
     width: 77,
     marginHorizontal: 10
   },
   authentication: {
+    marginTop: 10,
     paddingHorizontal: 20
   }
 });
