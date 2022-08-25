@@ -13,8 +13,8 @@ import { useForm } from "react-hook-form";
 import CustomInput from "../components/CustomInput";
 import CustomButton from "../components/CustomButton";
 
-// MAIN LOGIN COMPONENT
-const Login = () => {
+// MAIN REGISTER COMPONENT
+const Register = () => {
   //  react-hook-form init
   const {
     control,
@@ -35,11 +35,10 @@ const Login = () => {
   const loginUser = (data) => {
     const { email, password } = data;
     console.log(email, password);
-    console.log("LOGIN BUTTON PRESSED");
+    console.log('REGISTER BUTTON PRESSED')
     // console.warn("User has been logged in");
     //  < -------- setup navigation and firebase here ------>
   };
-
   return (
     <SafeAreaView>
       <KeyboardAvoidingView style={styles.container}>
@@ -89,7 +88,7 @@ const Login = () => {
           {/* Button custom */}
           <CustomButton
             color={"#0f5af0"}
-            title={"login"}
+            title={"register"}
             textColor={"#fff"}
             onPressHandler={handleSubmit(loginUser)}
           />
@@ -100,7 +99,7 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
 
 const styles = StyleSheet.create({
   container: {
