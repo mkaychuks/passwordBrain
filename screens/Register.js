@@ -2,16 +2,19 @@ import {
   StyleSheet,
   Text,
   View,
-  SafeAreaView,
   KeyboardAvoidingView,
   Image,
+  ToastAndroid,
 } from "react-native";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { useNavigation } from "@react-navigation/native";
 
 //  local imports
 import CustomInput from "../components/CustomInput";
 import CustomButton from "../components/CustomButton";
+import { auth } from "../firebase";
 
 // MAIN REGISTER COMPONENT
 const Register = () => {
@@ -31,14 +34,35 @@ const Register = () => {
   const EMAIL_REGEX =
     /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
+  // getting the useNavigation hook for navigation
+  const navigation = useNavigation();
+
   // handle user log in
-  const loginUser = (data) => {
+  const registerUser = (data) => {
     const { email, password } = data;
-    console.log(email, password);
-    console.log("REGISTER BUTTON PRESSED");
-    // console.warn("User has been logged in");
-    //  < -------- setup navigation and firebase here ------>
+
+    // using the firebase service
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredentials) => {
+        const user = userCredentials.user;
+        const { email, password } = user;
+        console.log(email, password);
+      })
+      .then(() => navigation.replace("Login"))
+      .catch((e) => {
+        if (e.code == "auth/email-already-in-use") {
+          // console.warn(true);
+          ToastAndroid.showWithGravityAndOffset(
+            (message = "invalid credentials"),
+            ToastAndroid.SHORT,
+            ToastAndroid.BOTTOM,
+            25,
+            50
+          );
+        }
+      });
   };
+
   return (
     <View style={styles.container}>
       <KeyboardAvoidingView style={styles.container}>
@@ -91,6 +115,7 @@ const Register = () => {
               color={"#0f5af0"}
               title={"register"}
               textColor={"#fff"}
+              onPressHandler={handleSubmit(registerUser)}
             />
           </View>
         </View>
