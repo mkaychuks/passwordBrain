@@ -35,12 +35,12 @@ const Register = () => {
   const loginUser = (data) => {
     const { email, password } = data;
     console.log(email, password);
-    console.log('REGISTER BUTTON PRESSED')
+    console.log("REGISTER BUTTON PRESSED");
     // console.warn("User has been logged in");
     //  < -------- setup navigation and firebase here ------>
   };
   return (
-    <SafeAreaView>
+    <View style={styles.container}>
       <KeyboardAvoidingView style={styles.container}>
         {/* Image */}
         <Image
@@ -86,16 +86,17 @@ const Register = () => {
           />
 
           {/* Button custom */}
-          <CustomButton
-            color={"#0f5af0"}
-            title={"register"}
-            textColor={"#fff"}
-            onPressHandler={handleSubmit(loginUser)}
-          />
+          <View style={{ alignItems: "stretch" }}>
+            <CustomButton
+              color={"#0f5af0"}
+              title={"register"}
+              textColor={"#fff"}
+            />
+          </View>
         </View>
         {/* ends */}
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </View>
   );
 };
 
