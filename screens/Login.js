@@ -2,16 +2,20 @@ import {
   StyleSheet,
   Text,
   View,
-  SafeAreaView,
   KeyboardAvoidingView,
   Image,
+  Pressable,
+  ToastAndroid,
 } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigation } from "@react-navigation/native";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 //  local imports
 import CustomInput from "../components/CustomInput";
 import CustomButton from "../components/CustomButton";
+import { auth } from "../firebase";
 
 // MAIN LOGIN COMPONENT
 const Login = () => {
@@ -27,6 +31,9 @@ const Login = () => {
     },
   });
 
+  // getting the useNavigation hook for navigation
+  const navigation = useNavigation();
+
   // REGULAR EXPRESSION FOR THE EMAIL VALIDATION
   const EMAIL_REGEX =
     /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -34,14 +41,24 @@ const Login = () => {
   // handle user log in
   const loginUser = (data) => {
     const { email, password } = data;
-    console.log(email, password);
-    console.log("LOGIN BUTTON PRESSED");
-    // console.warn("User has been logged in");
-    //  < -------- setup navigation and firebase here ------>
+    // handle the signin process
+    signInWithEmailAndPassword(auth, email, password)
+      .then(() => navigation.replace("Home"))
+      .catch((e) => {
+        if (e.code == "auth/user-not-found" || "auth/wrong-password") {
+          ToastAndroid.showWithGravityAndOffset(
+            (message = "invalid credentials"),
+            ToastAndroid.SHORT,
+            ToastAndroid.TOP,
+            25,
+            50
+          );
+        }
+      });
   };
 
   return (
-    <SafeAreaView>
+    <View style={styles.container}>
       <KeyboardAvoidingView style={styles.container}>
         {/* Image */}
         <Image
@@ -87,16 +104,32 @@ const Login = () => {
           />
 
           {/* Button custom */}
-          <CustomButton
-            color={"#0f5af0"}
-            title={"login"}
-            textColor={"#fff"}
-            onPressHandler={handleSubmit(loginUser)}
-          />
+          <View style={{ alignItems: "stretch" }}>
+            <CustomButton
+              color={"#0f5af0"}
+              title={"login"}
+              textColor={"#fff"}
+              onPressHandler={handleSubmit(loginUser)}
+            />
+          </View>
+
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "flex-end",
+              marginTop: 8,
+            }}
+          >
+            <Text>Don't have an account?&nbsp;</Text>
+            <Pressable onPress={() => navigation.navigate("Register")}>
+              <Text style={{ fontSize: 15, color: "#0f5af0" }}>Sign Up</Text>
+            </Pressable>
+          </View>
         </View>
         {/* ends */}
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </View>
   );
 };
 
