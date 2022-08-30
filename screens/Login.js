@@ -1,9 +1,10 @@
 import {
   StyleSheet,
   Text,
-  View,
+  // SafeAreaView,
   KeyboardAvoidingView,
   Image,
+  View,
   Pressable,
   ToastAndroid,
 } from "react-native";
@@ -11,6 +12,8 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigation } from "@react-navigation/native";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { StatusBar } from "expo-status-bar";
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 //  local imports
 import CustomInput from "../components/CustomInput";
@@ -58,7 +61,8 @@ const Login = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <StatusBar style="dark"/>
       <KeyboardAvoidingView style={styles.container}>
         {/* Image */}
         <Image
@@ -129,7 +133,7 @@ const Login = () => {
         </View>
         {/* ends */}
       </KeyboardAvoidingView>
-    </View>
+    </SafeAreaView>
   );
 };
 
