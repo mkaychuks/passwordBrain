@@ -1,7 +1,5 @@
 import { StyleSheet, Text, View, TextInput } from "react-native";
 import React from "react";
-import { FontAwesome } from "@expo/vector-icons";
-
 import { Controller } from "react-hook-form";
 
 const CustomInput = ({
