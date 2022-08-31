@@ -1,16 +1,14 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 import React from "react";
 
-const Headline = () => {
+const Headline = (props) => {
+  const { imageUrl, authorName, title } = props.headlineCard;
   return (
     // main container
     <View style={styles.container}>
       {/* housing the image */}
       <View style={styles.imageWrapper}>
-        <Image
-          source={require("../assets/images/gas.jpg")}
-          style={styles.image}
-        />
+        <Image source={{uri: imageUrl}} style={styles.image} />
       </View>
       {/* divider SPACER */}
       <View
@@ -23,10 +21,9 @@ const Headline = () => {
 
       {/* content of the card */}
       <View style={styles.content}>
-        <Text style={styles.author}>author</Text>
-        <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
-          Texting the microphone
-          jkngajkdgnjkagbjkandgkangjknadgjknagjknagjkwengiowngoiwebnweivnweoivmweoivmweiovmweovnweionviowevniowenvoiwenviowenvioweniowenviowevnio
+        <Text style={styles.author}>{authorName ? authorName : "Anonymous"}</Text>
+        <Text style={styles.titleText} numberOfLines={2} ellipsizeMode="tail">
+          {title}
         </Text>
       </View>
     </View>
@@ -41,12 +38,14 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: "blue",
     borderRadius: 5,
+    marginBottom: 4
   },
   imageWrapper: {
     width: "100%",
     borderRadius: 5,
   },
   image: {
+    borderTopRadius: 5,
     width: "100%",
     height: 100,
     resizeMode: "cover",
@@ -60,7 +59,7 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: "600",
   },
-  title: {
+  titleText: {
     fontSize: 14,
     fontWeight: "800",
     marginTop: 8,
