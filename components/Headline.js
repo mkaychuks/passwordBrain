@@ -1,14 +1,23 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import React from "react";
+import { useNavigation } from "@react-navigation/native";
+
 
 const Headline = (props) => {
-  const { imageUrl, authorName, title } = props.headlineCard;
+  const { imageUrl, authorName, title, id } = props.headlineCard;
+
+  // handling the navigation
+  const navigation = useNavigation();
+
   return (
     // main container
-    <View style={styles.container}>
+    <Pressable
+      style={styles.container}
+      onPress={() => navigation.navigate("NewsDetail", {id})}
+    >
       {/* housing the image */}
       <View style={styles.imageWrapper}>
-        <Image source={{uri: imageUrl}} style={styles.image} />
+        <Image source={{ uri: imageUrl }} style={styles.image} />
       </View>
       {/* divider SPACER */}
       <View
@@ -21,12 +30,15 @@ const Headline = (props) => {
 
       {/* content of the card */}
       <View style={styles.content}>
-        <Text style={styles.author}>{authorName ? authorName : "Anonymous"}</Text>
+        <Text style={styles.author}>
+          {authorName}
+          <Text>{id}</Text>
+        </Text>
         <Text style={styles.titleText} numberOfLines={2} ellipsizeMode="tail">
           {title}
         </Text>
       </View>
-    </View>
+    </Pressable>
   );
 };
 
@@ -38,7 +50,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: "blue",
     borderRadius: 5,
-    marginBottom: 4
+    marginBottom: 4,
   },
   imageWrapper: {
     width: "100%",

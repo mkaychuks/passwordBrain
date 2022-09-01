@@ -5,8 +5,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Login from "./screens/Login";
 import Register from "./screens/Register";
 import Home from "./screens/Home";
-import Headline from "./components/Headline";
-import { View } from "react-native";
+import NewsDetail from "./screens/NewsDetail";
+import UploadPassword from "./screens/UploadPassword";
 
 const Stack = createNativeStackNavigator();
 
@@ -33,7 +33,10 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen name="Home" component={Home}/>
+        <Stack.Screen name="UploadPassword" component={UploadPassword}/>
+        <Stack.Screen name="NewsDetail" component={NewsDetail}/>
       </Stack.Navigator>
     </NavigationContainer>
+    
   );
 }

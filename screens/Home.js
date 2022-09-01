@@ -11,7 +11,7 @@ import React, { useEffect, useLayoutEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import FloatingActionButton from "../components/FloatingActionButton";
 import { useNavigation } from "@react-navigation/native";
-import { Ionicons } from "@expo/vector-icons";
+import { EvilIcons } from "@expo/vector-icons";
 
 // local imports
 import Headline from "../components/Headline";
@@ -32,8 +32,8 @@ const Home = () => {
         </Pressable>
       ),
       headerRight: () => (
-        <Pressable style={{ marginRight: 10 }}>
-          <Ionicons name="notifications" size={24} color="#fff" />
+        <Pressable style={{ marginRight: 10 }} onPress={() => navigation.navigate("UploadPassword")}>
+          <EvilIcons name="pencil" size={34} color="#fff" />
         </Pressable>
       ),
     });
@@ -46,18 +46,11 @@ const Home = () => {
       setData(headlineData);
     };
     getData();
-  }, []);
+  },[]);
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
-
-      {/* FAB floating action button */}
-      <View style={{ position: "absolute", right: 10, bottom: 20 }}>
-        <FloatingActionButton
-          onPressHandler={() => console.warn("Fab button pressed")}
-        />
-      </View>
 
       {/* headline view */}
       <View style={styles.headlineWrapper}>
@@ -79,14 +72,15 @@ const Home = () => {
       <FlatList
         data={data}
         keyExtractor={(item) => {
-          item.id;
+          item.id
         }}
         renderItem={({ item }) => (
           <Headline
             headlineCard={{
               title: item.title,
-              author: item.author,
+              authorName: item.source.name,
               imageUrl: item.urlToImage,
+              id: item.id
             }}
           />
         )}
