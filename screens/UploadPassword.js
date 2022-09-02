@@ -7,31 +7,49 @@ import {
   View,
 } from "react-native";
 import React from "react";
-
 import { useForm } from "react-hook-form";
+import { collection, addDoc } from "firebase/firestore";
+import { useNavigation } from "@react-navigation/native";
 
 import FormField from "../components/FormField";
 import CustomButton from "../components/CustomButton";
+import { db, auth } from "../firebase";
 
 const UploadPassword = () => {
   //  react-hook-form init
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    watch,
   } = useForm({
     defaultValues: {
-      email: "",
+      app_name: "",
       password: "",
+      confirm_password: "",
     },
   });
 
-  // REGULAR EXPRESSION FOR THE EMAIL VALIDATION
-  const EMAIL_REGEX =
-    /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  // watch for the password
+  const pwd = watch("password")
 
-  const post = (data) => {
-    console.log(data);
+  // navigation hook
+  const navigation = useNavigation();
+
+  // handle write to the db
+  const addPasswordToDB = async (data) => {
+    const { app_name, password, confirm_password} = data
+    try {
+      const docRef = await addDoc(collection(db, "details"), {
+        first: "Ada",
+        last: "Lovelace",
+        born: 1815,
+        author: auth.currentUser?.email
+      });
+      console.warn("button pressed")
+      console.log("Document written with ID: ", docRef.id);
+    } catch (error) {
+      console.error("Error adding document: ", error);
+    }
   };
 
   return (
@@ -48,13 +66,12 @@ const UploadPassword = () => {
         />
         <FormField
           formName={"App Name"}
-          name="email"
+          name="app_name"
           control={control}
-          keyboardType={"email-address"}
-          placeholder={"Email"}
+          keyboardType={"default"}
+          placeholder={"App_Name"}
           rules={{
-            required: "Email is required",
-            pattern: { value: EMAIL_REGEX, message: "Email is invalid" },
+            required: "App_Name is required",
           }}
         />
         <FormField
@@ -74,21 +91,17 @@ const UploadPassword = () => {
         />
         <FormField
           formName={"Confirm-Password"}
-          name="password"
+          name="confirm_password"
           control={control}
           keyboardType={"default"}
-          placeholder={"Password"}
+          placeholder={"Confirm-Password"}
           rules={{
-            required: "Password is required",
-            minLength: {
-              value: 8,
-              message: "Password should be at least 8 characters long",
-            },
+            validate: value => value === pwd || "Password do not match"
           }}
           secureTextEntry={true}
         />
         <CustomButton
-          onPressHandler={handleSubmit(post)}
+          onPressHandler={handleSubmit(addPasswordToDB)}
           textColor={"white"}
           title="Submit"
           color={"#0f5af0"}
