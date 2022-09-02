@@ -5,18 +5,18 @@ import { getFirestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDuI8tx0HJ2rWsQ8EGbicP6Q4VvlWZUcKY",
-  authDomain: "passwordmgt.firebaseapp.com",
-  projectId: "passwordmgt",
-  storageBucket: "passwordmgt.appspot.com",
-  messagingSenderId: "599754531311",
-  appId: "1:599754531311:web:d9cb8d8cc826080a1f161a"
+  apiKey: "AIzaSyBJE1H0CPnE30v8DGQG9OkbfaimdphT7TA",
+  authDomain: "passwordmgt-f123c.firebaseapp.com",
+  projectId: "passwordmgt-f123c",
+  storageBucket: "passwordmgt-f123c.appspot.com",
+  messagingSenderId: "126188382356",
+  appId: "1:126188382356:web:78528f0d973d7474b76c81"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app) // initialize authentication for the app
-const db = getFirestore(app) // initialize the storage db
+const auth = getAuth(app); // initialize authentication for the app
+const db = getFirestore(app); // initialize the storage db
 
 
-export { auth, app, db}
+export { auth, db}
