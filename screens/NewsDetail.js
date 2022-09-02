@@ -8,7 +8,7 @@ const NewsDetail = () => {
   const [data, setData] = useState([]);
   const route = useRoute();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const getData = async () => {
       const headlineData = await getHeadlinesData();
       setData(headlineData);
