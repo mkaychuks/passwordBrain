@@ -17,11 +17,7 @@ import { db, auth } from "../firebase";
 
 const UploadPassword = () => {
   //  react-hook-form init
-  const {
-    control,
-    handleSubmit,
-    watch,
-  } = useForm({
+  const { control, handleSubmit, watch } = useForm({
     defaultValues: {
       app_name: "",
       password: "",
@@ -30,26 +26,24 @@ const UploadPassword = () => {
   });
 
   // watch for the password
-  const pwd = watch("password")
+  const pwd = watch("password");
 
   // navigation hook
   const navigation = useNavigation();
 
-  // handle write to the db
-  const addPasswordToDB = async (data) => {
-    const { app_name, password, confirm_password} = data
+  // add data to DB
+  const addDataToDB = async (data) => {
     try {
-      const docRef = await addDoc(collection(db, "details"), {
+      const docRef = await addDoc(collection(db, "passwords"), {
         first: "Ada",
         last: "Lovelace",
         born: 1815,
-        author: auth.currentUser?.email
       });
-      console.warn("button pressed")
       console.log("Document written with ID: ", docRef.id);
-    } catch (error) {
-      console.error("Error adding document: ", error);
+    } catch (e) {
+      console.error("Error adding document: ", e);
     }
+    console.warn("Button Pressed");
   };
 
   return (
@@ -96,12 +90,12 @@ const UploadPassword = () => {
           keyboardType={"default"}
           placeholder={"Confirm-Password"}
           rules={{
-            validate: value => value === pwd || "Password do not match"
+            validate: (value) => value === pwd || "Password do not match",
           }}
           secureTextEntry={true}
         />
         <CustomButton
-          onPressHandler={handleSubmit(addPasswordToDB)}
+          onPressHandler={handleSubmit(addDataToDB)}
           textColor={"white"}
           title="Submit"
           color={"#0f5af0"}

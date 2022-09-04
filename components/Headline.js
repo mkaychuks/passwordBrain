@@ -32,7 +32,6 @@ const Headline = (props) => {
       <View style={styles.content}>
         <Text style={styles.author}>
           {authorName}
-          <Text>{id}</Text>
         </Text>
         <Text style={styles.titleText} numberOfLines={2} ellipsizeMode="tail">
           {title}
