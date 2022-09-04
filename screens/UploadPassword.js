@@ -6,7 +6,7 @@ import {
   StyleSheet,
   View,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { collection, addDoc } from '@firebase/firestore/lite';
 import { useNavigation } from "@react-navigation/native";
@@ -25,6 +25,8 @@ const UploadPassword = () => {
     },
   });
 
+  const [dataPassword, setDataPassword] = useState([])
+
   // watch for the password
   const pwd = watch("password");
 
@@ -33,13 +35,15 @@ const UploadPassword = () => {
 
   // add data to DB
   const addDataToDB = async (data) => {
+    const { app_name, password } = data
     try {
       const docRef = await addDoc(collection(db, "passwords"), {
-        first: "Ada",
-        last: "Lovelace",
-        born: 1815,
-      });
-      console.log("Document written with ID: ", docRef.id);
+        app_name,
+        password,
+        owner: auth.currentUser?.email
+      })
+      .then(() => setDataPassword(docRef))
+      .then(() => navigation.navigate("MyPasswords", {dataPassword}))
     } catch (e) {
       console.error("Error adding document: ", e);
     }

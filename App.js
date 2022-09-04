@@ -7,6 +7,7 @@ import Register from "./screens/Register";
 import Home from "./screens/Home";
 import NewsDetail from "./screens/NewsDetail";
 import UploadPassword from "./screens/UploadPassword";
+import MyPasswords from "./screens/MyPasswords";
 
 const Stack = createNativeStackNavigator();
 
@@ -35,6 +36,7 @@ export default function App() {
         <Stack.Screen name="Home" component={Home}/>
         <Stack.Screen name="UploadPassword" component={UploadPassword}/>
         <Stack.Screen name="NewsDetail" component={NewsDetail}/>
+        <Stack.Screen name="MyPasswords" component={MyPasswords}/>
       </Stack.Navigator>
     </NavigationContainer>
     
