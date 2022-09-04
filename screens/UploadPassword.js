@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc } from '@firebase/firestore/lite';
 import { useNavigation } from "@react-navigation/native";
 
 import FormField from "../components/FormField";
