@@ -46,12 +46,10 @@ const Register = () => {
       .then((userCredentials) => {
         const user = userCredentials.user;
         const { email, password } = user;
-        console.log(email, password);
       })
       .then(() => navigation.replace("Login"))
       .catch((e) => {
         if (e.code == "auth/email-already-in-use") {
-          // console.warn(true);
           ToastAndroid.showWithGravityAndOffset(
             (message = "invalid credentials"),
             ToastAndroid.SHORT,

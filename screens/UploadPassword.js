@@ -40,11 +40,10 @@ const UploadPassword = () => {
         password,
         owner: auth.currentUser?.email
       })
-      .then(() => navigation.navigate("MyPasswords"))
+      .then(() => navigation.replace("MyPasswords"))
     } catch (e) {
       console.error("Error adding document: ", e);
     }
-    console.warn("Button Pressed");
   };
 
   return (

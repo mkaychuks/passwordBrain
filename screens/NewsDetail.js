@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Image, SafeAreaView } from "react-native";
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { useRoute } from "@react-navigation/native";
 import getHeadlinesData from "../services/getHeadlines";
 
@@ -8,6 +8,7 @@ const NewsDetail = () => {
   const [data, setData] = useState([]);
   const route = useRoute();
 
+  // fetching the data from the api call
   useLayoutEffect(() => {
     const getData = async () => {
       const headlineData = await getHeadlinesData();
@@ -16,9 +17,11 @@ const NewsDetail = () => {
     getData();
   }, []);
 
+  // receiving the params?.id from each Headline component
   const headlineId = route.params?.id;
-  const headline = data.find((item) => item.id.toString() === headlineId);
+  const headline = data.find((item) => item.id.toString() === headlineId); // filtering the list of data to match the passed id param?
 
+  // if headline is not foud, do this
   if (!headline) {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>

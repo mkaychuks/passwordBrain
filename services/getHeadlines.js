@@ -1,18 +1,22 @@
 import axios from "axios";
 
+
+// the base url to be called
 const BASE_URL =
   "https://saurav.tech/NewsAPI/top-headlines/category/sports/us.json";
 
+
+  // formatting the data
 const formatHeadlineData = (data) => {
-  let formattedData = [];
+  let formattedData = []; // empty array to store the data
 
   data.forEach((item, index) => {
     const format = {
       ...item,
-      id: index.toString(),
+      id: index.toString(), // adding an id to the objects to be returned
     };
 
-    formattedData.push(format);
+    formattedData.push(format); // pushing to the empty array
   });
 
   return formattedData;

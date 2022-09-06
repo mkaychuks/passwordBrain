@@ -1,13 +1,14 @@
-import { Button, FlatList, StyleSheet, Text, View } from "react-native";
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import {FlatList, StyleSheet, Text, View } from "react-native";
+import React, {useLayoutEffect, useState } from "react";
 import { collection, getDocs } from "@firebase/firestore/lite";
 import { auth, db } from "../firebase";
 
 const MyPasswords = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([]); // set the state management
 
+  // pinging firebase-firestore
   useLayoutEffect(() => {
-    let documents = [];
+    let documents = []; // create an empy array to store data
     const getDocuments = async () => {
       const querySnapshot = await getDocs(collection(db, "passwords"));
       querySnapshot.forEach((doc) => {
@@ -15,14 +16,14 @@ const MyPasswords = () => {
           const document = {
             id: doc.id,
             ...doc.data(),
-          };
-          documents.push(document);
-          setData(documents);
+          }; // filter the result "if the owner of the document fetched is the currentUser"
+          documents.push(document); // push to the empty document array
+          setData(documents); // push to the state management
         }
       });
     };
 
-    getDocuments();
+    getDocuments(); // calling/pinging frebase here
   }, []);
 
   return (
@@ -58,7 +59,7 @@ const MyPasswords = () => {
                 marginBottom: 10,
               }}
             />
-            <Text style={{ fontSize: 15, marginBottom: 4 }}>
+            <Text style={{ fontSize: 15, marginBottom: 8 }}>
               {item.password}
             </Text>
           </View>
