@@ -24,7 +24,7 @@ const Home = () => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <Pressable style={{ marginLeft: 10 }}>
+        <Pressable style={{ marginLeft: 10 }} onPress={() => navigation.navigate("MyPasswords")}>
           <Image
             source={require("../assets/images/logo.png")}
             style={{ height: 24, width: 24, borderRadius: 100 }}

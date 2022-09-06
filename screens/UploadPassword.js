@@ -25,8 +25,6 @@ const UploadPassword = () => {
     },
   });
 
-  const [dataPassword, setDataPassword] = useState([])
-
   // watch for the password
   const pwd = watch("password");
 
@@ -42,8 +40,7 @@ const UploadPassword = () => {
         password,
         owner: auth.currentUser?.email
       })
-      .then(() => setDataPassword(docRef))
-      .then(() => navigation.navigate("MyPasswords", {dataPassword}))
+      .then(() => navigation.navigate("MyPasswords"))
     } catch (e) {
       console.error("Error adding document: ", e);
     }
